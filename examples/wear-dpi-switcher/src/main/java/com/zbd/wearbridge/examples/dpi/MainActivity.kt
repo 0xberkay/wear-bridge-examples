@@ -5,8 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.wear.compose.material3.AppScaffold
 import androidx.compose.ui.Modifier
 import com.zbd.wearbridge.examples.dpi.theme.DpiSwitcherTheme
 
@@ -16,7 +15,7 @@ class MainActivity : ComponentActivity() {
 
     enableEdgeToEdge()
     setContent {
-      DpiSwitcherTheme { Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) { MainNavigation() } }
+      DpiSwitcherTheme { AppScaffold { com.zbd.wearbridge.examples.dpi.ui.main.MainScreen() } }
     }
   }
 }

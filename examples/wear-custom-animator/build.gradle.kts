@@ -17,8 +17,18 @@ android {
         versionName = "0.1.0"
     }
 
+    val releaseKeystore = System.getenv("EXAMPLES_KEYSTORE_FILE")
+    if (releaseKeystore != null) {
+        signingConfigs.create("examplesRelease") {
+            storeFile = file(releaseKeystore)
+            storePassword = System.getenv("EXAMPLES_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("EXAMPLES_KEY_ALIAS")
+            keyPassword = System.getenv("EXAMPLES_KEY_PASSWORD")
+        }
+    }
     buildTypes {
         release {
+            if (releaseKeystore != null) signingConfig = signingConfigs.getByName("examplesRelease")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -46,13 +56,13 @@ kotlin {
 }
 
 dependencies {
+  implementation(project(":common"))
   val composeBom = platform(libs.androidx.compose.bom)
   implementation(composeBom)
   androidTestImplementation(composeBom)
 
-  // WearBridge SDK & Protocol
-  implementation("com.zbd.wearbridge:wearbridge-sdk:1.0.0")
-  implementation("com.zbd.wearbridge:protocol:1.0.0")
+   // Official SDK includes the protocol classes and AIDL interfaces.
+   implementation("io.github.0xberkay:wearbridge-sdk:1.1.0")
 
   // Core Android dependencies
   implementation(libs.androidx.core.ktx)
@@ -67,6 +77,7 @@ dependencies {
   implementation(libs.androidx.compose.ui)
   implementation(libs.androidx.compose.ui.tooling.preview)
   implementation(libs.androidx.compose.material3)
+  implementation(libs.wear.foundation)
   // Tooling
   debugImplementation(libs.androidx.compose.ui.tooling)
   // Instrumented tests

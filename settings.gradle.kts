@@ -22,7 +22,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        mavenLocal()
     }
 }
 
@@ -31,6 +30,7 @@ plugins {
 }
 
 rootProject.name = "wear-bridge-examples"
+include(":common")
 include(":examples:wear-perm-list")
 include(":examples:wear-dpi-switcher")
 include(":examples:wear-custom-animator")

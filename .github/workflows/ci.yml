@@ -14,4 +14,4 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
       - run: chmod +x gradlew
-      - run: ./gradlew assembleDebug test --parallel
+      - run: ./gradlew assembleDebug test lintDebug --parallel
