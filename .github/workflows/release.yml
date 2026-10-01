@@ -1,0 +1,28 @@
+name: release-apks
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew
+      - run: ./gradlew assembleRelease --parallel
+      - run: |
+          mkdir -p dist
+          cp examples/wear-perm-list/build/outputs/apk/release/*-release.apk dist/wear-perm-list-release.apk
+          cp examples/wear-dpi-switcher/build/outputs/apk/release/*-release.apk dist/wear-dpi-switcher-release.apk
+          cp examples/wear-custom-animator/build/outputs/apk/release/*-release.apk dist/wear-custom-animator-release.apk
+          ls -la dist/
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*-release.apk
+          generate_release_notes: true
